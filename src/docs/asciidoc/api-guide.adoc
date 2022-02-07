@@ -34,5 +34,3 @@ include::{snippets}/find-by-id/curl-request.adoc[]
 include::{snippets}/find-by-id/http-request.adoc[]
 ==== Example response
 include::{snippets}/find-by-id/http-response.adoc[]
-==== Request fields
-include::{snippets}/find-by-id/request-fields.adoc[]

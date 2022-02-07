@@ -112,7 +112,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleApiRequestException(DataIntegrityViolationException ex) {
         Map<String, String> sqlConstraintErrors = Map.of(
                 "username_alphanumeric_only", "Only alphanumeric characters can be used for username",
-                "users_relation_check", "User cannot follow himself"
+                "un_user_username", "Username must be unique",
+                "un_user_email", "E-mail must be unique",
+                "valid_email", "User must have a valid E-mail address"
         );
 
         logger.error(ex.getMessage(), ex);
