@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "security.client-secret",
+      "type": "java.lang.String",
+      "description": "SHA512 hash string used to encode password."
+    },
+    {
+      "name": "security.salt",
+      "type": "java.lang.String",
+      "description": "Salt added to password to ensure security even."
+    }
+  ]
+}

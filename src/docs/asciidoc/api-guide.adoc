@@ -1,0 +1,38 @@
+= RESTful Notes API Guide
+Spring Template;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources]]
+= Resources
+
+[[resources-users]]
+== Users
+
+[[resources-users-authenticate]]
+=== Authenticate
+
+==== CURL request
+include::{snippets}/authenticate/curl-request.adoc[]
+==== Request structure
+include::{snippets}/authenticate/http-request.adoc[]
+==== Example response
+include::{snippets}/authenticate/http-response.adoc[]
+==== Request fields
+include::{snippets}/authenticate/request-fields.adoc[]
+
+[[resources-users-find]]
+=== Find
+
+==== CURL request
+include::{snippets}/find-by-id/curl-request.adoc[]
+==== Request structure
+include::{snippets}/find-by-id/http-request.adoc[]
+==== Example response
+include::{snippets}/find-by-id/http-response.adoc[]
+==== Request fields
+include::{snippets}/find-by-id/request-fields.adoc[]
