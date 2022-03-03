@@ -1,7 +1,7 @@
-package com.template.spring.app.mapper;
+package com.template.spring.auth.mapper;
 
-import com.template.spring.app.dto.UserDto;
-import com.template.spring.app.model.User;
+import com.template.spring.auth.dto.UserDto;
+import com.template.spring.auth.model.User;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 

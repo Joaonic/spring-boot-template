@@ -1,4 +1,4 @@
-package com.template.spring.app.dto;
+package com.template.spring.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,13 +23,13 @@ import java.util.Date;
 public class UserDto implements Serializable {
     private Long id;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Config.DATE_TEXT_FORMAT, locale = "en")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Config.DATE_TIME_FULL)
     private Date createdAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Config.DATE_TEXT_FORMAT, locale = "en")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Config.DATE_TIME_FULL)
     private Date updatedAt;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Config.DATE_TEXT_FORMAT, locale = "en")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Config.DATE_TIME_FULL)
     private Date deletedAt;
 
     @Email(message = "Must be a valid e-mail")

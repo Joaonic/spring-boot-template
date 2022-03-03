@@ -17,7 +17,10 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.HandlerTypePredicate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
@@ -64,6 +67,7 @@ public class WebConfig implements WebMvcConfigurer {
         list.add(MediaType.APPLICATION_OCTET_STREAM);
         list.add(MediaType.APPLICATION_PDF);
         list.add(MediaType.MULTIPART_FORM_DATA);
+        list.add(MediaType.APPLICATION_XML);
 
         return list;
     }
@@ -89,6 +93,11 @@ public class WebConfig implements WebMvcConfigurer {
                         "classpath:/public/"
                 );
 
+        registry.addResourceHandler("/robots.txt").addResourceLocations("classpath:/static/robots.txt");
+
+        registry.addResourceHandler("/sitemap.xml").addResourceLocations("classpath:/static/sitemap.xml");
+
+
         registry.addResourceHandler(
                 "/**/*.css",
                 "/**/*.html",
@@ -107,7 +116,8 @@ public class WebConfig implements WebMvcConfigurer {
                 "/**/*.svg",
                 "/**/*.woff",
                 "/**/*.woff2",
-                "/**/*.map"
+                "/**/*.map",
+                "/**/*.webmanifest"
         ).addResourceLocations(staticLocations);
 
         registry.addResourceHandler("/**")
@@ -164,5 +174,11 @@ public class WebConfig implements WebMvcConfigurer {
 
         retryTemplate.registerListener(new DefaultRetryListenerSupport());
         return retryTemplate;
+    }
+
+
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        configurer.addPathPrefix("api", HandlerTypePredicate.forAnnotation(RestController.class));
     }
 }

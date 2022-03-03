@@ -23,7 +23,7 @@ public class AuthController extends BaseController {
 
     @PostMapping("/login")
     public ResponseEntity<Json> authenticateUser(@Valid @RequestBody LoginDto loginRequest) throws UnauthorizedException {
-        return renderJSON(authService.authenticateUser(loginRequest));
+        return renderJSON(authService.login(loginRequest));
     }
 
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,8 +16,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -42,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new SHA512Generator();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
@@ -56,6 +60,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomAccessDeniedHandler();
     }
 
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        String hierarchy = "ROLE_ADMIN > ROLE_USER";
+        roleHierarchy.setHierarchy(hierarchy);
+        return roleHierarchy;
+    }
+
+    //TODO CHECAR HIERARQUIA
+//    @Bean
+//    public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
+//        DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
+//        expressionHandler.setRoleHierarchy(roleHierarchy());
+//        return expressionHandler;
+//    }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -75,16 +94,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()
+                .antMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
                 .antMatchers(
                         "/",
-                        "/auth/**",
+                        "/api/auth/**",
+                        "/api/public/**",
                         "/public/**",
+                        "/login",
                         "/error",
-                        "/favicon.ico",
                         "/webjars/**",
+                        "/sitemap.xml",
                         "/**/*.png",
+                        "/**/*.ico",
                         "/**/*.gif",
                         "/**/*.svg",
+                        "/**/*.jpeg",
+                        "/**/*.webmanifest",
                         "/**/*.jpg",
                         "/**/*.html",
                         "/**/*.css",
@@ -98,7 +123,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         UsernamePasswordAuthenticationFilter.class)
                 .csrf()
                 .disable();
-
     }
 
     @Override
@@ -106,10 +130,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 "/",
                 "/#/**",
-                "/swagger-ui.html/**",
-                "/configuration/**",
-                "/swagger-resources/**",
-                "/v2/api-docs",
+                "/login",
+                "/sitemap.xml",
+                "/robots.txt",
                 "/webjars/**",
                 "/csrf/**",
                 "/favicon.ico",

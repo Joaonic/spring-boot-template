@@ -1,7 +1,7 @@
-package com.template.spring.app.controller;
+package com.template.spring.auth.controller;
 
-import com.template.spring.app.mapper.UserMapper;
-import com.template.spring.app.service.UserService;
+import com.template.spring.auth.mapper.UserMapper;
+import com.template.spring.auth.service.UserService;
 import com.template.spring.core.web.BaseController;
 import com.template.spring.core.web.json.Json;
 import lombok.AllArgsConstructor;

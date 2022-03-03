@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.NonNullApi;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ public interface BaseRepository<T extends BaseModel> extends JpaRepository<T, Lo
     //Override CrudRepository or PagingAndSortingRepository's query method:
     @Override
     @Query("select e from #{#entityName} e where e.deletedAt is null")
+    @NonNull
     List<T> findAll();
 
     //Look up deleted entities
